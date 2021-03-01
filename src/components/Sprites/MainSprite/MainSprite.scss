@@ -1,0 +1,18 @@
+.sprite-container {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 100px;
+  position: absolute;
+  bottom: 78px;
+  left: 78px;
+  transition: .3s;
+  .sprite {
+    width: auto;
+    height: 100%;
+    position: relative;
+    img {
+      height: 100%;
+    }
+  }
+}

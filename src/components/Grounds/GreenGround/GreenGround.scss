@@ -1,0 +1,13 @@
+.green-ground {
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  bottom: -5px;
+  .ground {
+    white-space: nowrap;
+    .ground-img {
+      width: 1200px;
+      height: auto;
+    }
+  }
+}
