@@ -2,7 +2,6 @@
   width: 100px;
   height: 100px;
   overflow: hidden;
-  border-radius: 100px;
   position: absolute;
   bottom: 78px;
   left: 78px;
@@ -15,4 +14,20 @@
       height: 100%;
     }
   }
+  .dead {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      height: 30px;
+    }
+  }
+}
+
+.sprite-enemy {
+  width: 70px;
+  height: 70px;
+  bottom: 94px;
+  left: 94px;
+  transition: 0s;
 }

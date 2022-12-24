@@ -3,9 +3,12 @@ import { OrnamentGround } from '../../../assets/oranaments';
 import './GreenGround.scss';
 
 function GreenGround({ move, keyCode, speed }) {
-
   const [position, setPosition] = useState(0);
   const [frame, setFrame] = useState(1);
+
+  useEffect(() => {
+    setTimeout(move ? handleMove : null, speed);
+  });
 
   const handleMove = () => {
     let spriteWidth = -78;
@@ -16,10 +19,6 @@ function GreenGround({ move, keyCode, speed }) {
       setPosition(position <= spriteWidth ? 0 : position - frame);
     }
   }
-
-  useEffect(() => {
-    setTimeout(move ? handleMove : null, speed);
-  });
 
   return (
     <div className="green-ground">

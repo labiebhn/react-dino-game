@@ -1,0 +1,1 @@
+export const FRAME_SPRITE = 100;
