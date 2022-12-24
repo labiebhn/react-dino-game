@@ -8,7 +8,7 @@ function GreenGround({ move, keyCode, speed }) {
   const [frame, setFrame] = useState(1);
 
   const handleMove = () => {
-    let spriteWidth = -88;
+    let spriteWidth = -78;
     if(keyCode === 37 || keyCode === 65) {
       setPosition(position >= 0 ? spriteWidth : position + frame);
     } 

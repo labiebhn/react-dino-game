@@ -8,23 +8,27 @@ import './Home.scss';
 function Home(props) {
 
   const [key, setKey] = useState(null);
-  const [keyMove, setKeyMove] = useState([37, 39, 68, 65]);
   const [move, setMove] = useState(false);
   const [speed, setSpeed] = useState(50);
   const [jump, setJump] = useState(false);
   const homeRef = useRef(null);
+  
+  const keyMove = [37, 39, 68, 65];
 
   return (
     <div 
       id="Home" 
       ref={homeRef} 
       onKeyDown={(e) => {
+        console.log('keydown: ', e.keyCode);
         setMove(keyMove.includes(e.keyCode) ? true : move);
         setKey(keyMove.includes(e.keyCode) ? e.keyCode : key);
-        console.log(e.keyCode)
+        setJump(e.keyCode === 38 ? true : jump)
       }}
       onKeyUp={(e) => {
+        console.log('keyup: ', e.keyCode);
         setMove(keyMove.includes(e.keyCode) ? false : move);
+        // setJump(e.keyCode === 38 ? false : jump)
       }}
       tabIndex="0"
     >
@@ -40,6 +44,7 @@ function Home(props) {
           move={move}
           speed={speed}
           jump={jump}
+          onJumpEnd={() => setJump(false)}
         />
       </div>
     </div>
