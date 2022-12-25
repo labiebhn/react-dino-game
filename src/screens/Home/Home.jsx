@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { SoundSlimeDead } from '../../assets/sounds';
 import GreenGround from '../../components/Grounds/GreenGround/GreenGround';
 import MainScore from '../../components/Scores/MainScore';
 import EnemySprite from '../../components/Sprites/MainSprite/EnemySprite';
@@ -9,6 +10,7 @@ import './Home.scss';
 
 function Home(props) {
   const homeRef = useRef(null);
+  const soundSlimeDead = new Audio(SoundSlimeDead);
   const { width } = useWindowDimensions();
 
   const [key, setKey] = useState(null);
@@ -44,7 +46,7 @@ function Home(props) {
     const initPosition = prevPosition ? width / 3 : width;
     const gap = 300;
     const minGap = Math.round(prevPosition ? prevPosition + gap : initPosition);
-    const maxGap = Math.round(minGap + initPosition);
+    const maxGap = Math.round(prevPosition ? minGap + initPosition : minGap + gap);
     result = getRandomInt(minGap, maxGap);
     return Math.round(result);
   }
@@ -68,6 +70,7 @@ function Home(props) {
 
   const handleEnemyKilled = (isEnemyDead, enemyIndex) => {
     if (isEnemyDead) {
+      soundSlimeDead.play();
       setEnemies((prevState => {
         let enemiesNew = [...prevState];
         enemiesNew[enemyIndex].isDead = true;
