@@ -22,13 +22,13 @@ function MainSprite({ move, keyCode, speed, jump, enemyTouched, enemyDead, gameO
   useEffect(() => {
     if (jumpEnd) {
       let isEnemyDead = false;
-      if (enemyTouched) {
+      if (typeof enemyTouched === 'number' && !enemyDead) {
         isEnemyDead = true;
       }
-      onJumpEnd?.(isEnemyDead);
+      onJumpEnd?.(isEnemyDead, enemyTouched);
       setJumpEnd(false);
     }
-  }, [jumpEnd, enemyTouched]);
+  }, [jumpEnd, enemyDead, enemyTouched]);
 
   useEffect(() => {
     handleDead();

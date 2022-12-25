@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SpriteDeadEnemy, SpriteSlimeEnemy, SpriteWormEnemy } from "../../../assets/characters";
-import { useWindowDimensions } from "../../../utils/helpers";
 import "./MainSprite.scss";
 
-const EnemySprite = ({ move, keyCode, speed, isDead, onEnemyTouch }) => {
-  const { width } = useWindowDimensions();
-  const initPosition = width / 3;
+const EnemySprite = ({ move, keyCode, speed, isDead, isPass, initPosition, onEnemyPass, onEnemyTouch }) => {
   const [position, setPosition] = useState(initPosition);
-  const [frame, setFrame] = useState(speed / 5);
+  const [frame, setFrame] = useState(11.9);
   const [touched, setTouched] = useState(false);
 
   useEffect(() => {
@@ -26,7 +23,11 @@ const EnemySprite = ({ move, keyCode, speed, isDead, onEnemyTouch }) => {
     } else {
       setTouched(false);
     }
-  }, [position])
+    // Enemy pass away
+    if (position <= positionDinoPassed && !isPass) {
+      onEnemyPass?.();
+    }
+  }, [position, isPass])
 
   const handleMove = () => {
     if (keyCode === 37 || keyCode === 65) {
