@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { SpriteDeadEnemy, SpriteSlimeEnemy, SpriteWormEnemy } from "../../../assets/characters";
+import { SpriteDeadEnemy, SpriteSlimeEnemy } from "../../../assets/characters";
 import "./MainSprite.scss";
 
 const EnemySprite = ({ move, keyCode, speed, isDead, isPass, initPosition, onEnemyPass, onEnemyTouch }) => {
   const [position, setPosition] = useState(initPosition);
-  const [frame, setFrame] = useState(11.9);
+  const [frame] = useState(11.9);
   const [touched, setTouched] = useState(false);
 
   useEffect(() => {
     setTimeout(move ? handleMove : null, speed);
   });
+
+  useEffect(() => {
+    return () => {
+      setPosition(0);
+      setTouched(false);
+    }
+  }, []);
 
   useEffect(() => {
     onEnemyTouch?.(touched);
@@ -24,7 +31,8 @@ const EnemySprite = ({ move, keyCode, speed, isDead, isPass, initPosition, onEne
       setTouched(false);
     }
     // Enemy pass away
-    if (position <= positionDinoPassed && !isPass) {
+    const postionEnemyPassed = -151;
+    if (position <= postionEnemyPassed && !isPass) {
       onEnemyPass?.();
     }
   }, [position, isPass])

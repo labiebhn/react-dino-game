@@ -4,7 +4,7 @@ import GreenGround from '../../components/Grounds/GreenGround/GreenGround';
 import MainScore from '../../components/Scores/MainScore';
 import EnemySprite from '../../components/Sprites/MainSprite/EnemySprite';
 import MainSprite from '../../components/Sprites/MainSprite/MainSprite';
-import { ENEMY_UNIT, SOCRE_UNIT } from '../../constants';
+import { ENEMY_GAP_DEFAULT, ENEMY_UNIT, SOCRE_UNIT, SPEED_DEFAULT, SPEED_UNIT } from '../../constants';
 import { getRandomInt, useWindowDimensions } from '../../utils/helpers';
 import './Home.scss';
 
@@ -15,8 +15,8 @@ function Home(props) {
 
   const [key, setKey] = useState(null);
   const [move, setMove] = useState(false);
-  const [level, setLevel] = useState(1);
-  const [speed, setSpeed] = useState(50);
+  const [level, setLevel] = useState(0);
+  const [speed, setSpeed] = useState(SPEED_DEFAULT);
   const [jump, setJump] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [enemyTouched, setEnemyTouched] = useState(false);
@@ -37,14 +37,28 @@ function Home(props) {
     if (isAllPass?.length < 1) {
       handleSummonEnemy();
     }
-    console.log(enemies);
   }, [enemies]);
 
-  const getInitialEnemyPosition = (data, index) => {
+  useEffect(() => {
+    if (level) {
+      handleLevelUpgrade();
+    }
+  }, [level]);
+
+  const handleLevelUpgrade = useCallback(() => {
+    if (speed > SPEED_UNIT) {
+      setSpeed(prevState => prevState - SPEED_UNIT);
+    }
+  }, [speed]);
+
+  const getInitialEnemyPosition = (data, index, level) => {
     let result = 0;
     const prevPosition = data?.[index - 1]?.initPosition;
     const initPosition = prevPosition ? width / 3 : width;
-    const gap = 300;
+    let gap = ENEMY_GAP_DEFAULT - (SPEED_UNIT * level);
+    if (gap <= 100) {
+      gap = ENEMY_GAP_DEFAULT;
+    }
     const minGap = Math.round(prevPosition ? prevPosition + gap : initPosition);
     const maxGap = Math.round(prevPosition ? minGap + initPosition : minGap + gap);
     result = getRandomInt(minGap, maxGap);
@@ -53,20 +67,19 @@ function Home(props) {
 
   const handleSummonEnemy = useCallback(() => {
     let payload = [];
-    let enemiesLength = enemies?.length || 0;
-    for (let i = 0; i < ENEMY_UNIT; i++) {
-      let position = getInitialEnemyPosition(payload, i);
+    let enemiesUnit = ENEMY_UNIT;
+    for (let i = 0; i < enemiesUnit; i++) {
+      let position = getInitialEnemyPosition(payload, i, level);
       payload.push({
-        id: enemiesLength?.toString(),
+        id: `${i}-${getRandomInt(100, 999)}`,
         isDead: false,
         isPass: false,
         initPosition: position,
       });
-      enemiesLength++;
     }
-    payload = [...enemies, ...payload];
     setEnemies(payload);
-  }, [enemies]);
+    setLevel(level + 1);
+  }, [enemies, level]);
 
   const handleEnemyKilled = (isEnemyDead, enemyIndex) => {
     if (isEnemyDead) {
@@ -119,6 +132,7 @@ function Home(props) {
         {enemies?.map((item, index) => {
           return (
             <EnemySprite
+              key={item?.id}
               move={move}
               keyCode={key}
               jump={jump}
