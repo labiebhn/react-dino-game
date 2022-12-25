@@ -12,7 +12,15 @@ function MainSprite({ move, keyCode, speed, jump, enemyTouched, enemyDead, gameO
   const jumpFrame = frame * 1.5;
 
   useEffect(() => {
-    setTimeout(move ? handleMove : setPosition(0), speed);
+    let cancel = false;
+    setTimeout(move ? () => {
+      if (!cancel) {
+        handleMove();
+      }
+    } : setPosition(0), speed);
+    return () => {
+      cancel = true;
+    }
   });
 
   useEffect(() => {
