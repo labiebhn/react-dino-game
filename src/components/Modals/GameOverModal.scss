@@ -24,8 +24,27 @@
       border: unset;
       font-size: 4rem;
       cursor: pointer;
+      transition: .1s;
       &:hover {
         color: #03d503;
+      }
+    }
+    .content-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: -18px;
+      .github {
+        display: block;
+        width: 18px;
+        transition: .2s;
+        img {
+          width: 100%;
+          height: auto;
+        }
+        &:hover {
+          transform: scale(1.1, 1.1);
+        }
       }
     }
   }
