@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { SoundSlimeDead } from '../../assets/sounds';
 import GreenGround from '../../components/Grounds/GreenGround/GreenGround';
+import GameOverModal from '../../components/Modals/GameOverModal';
 import MainScore from '../../components/Scores/MainScore';
 import EnemySprite from '../../components/Sprites/MainSprite/EnemySprite';
 import MainSprite from '../../components/Sprites/MainSprite/MainSprite';
@@ -44,6 +45,15 @@ function Home(props) {
       handleLevelUpgrade();
     }
   }, [level]);
+
+  const handleReset = () => {
+    setLevel(0);
+    setSpeed(SPEED_DEFAULT);
+    setGameOver(false);
+    setEnemyTouched(false);
+    setEnemies([])
+    setScore(0);
+  }
 
   const handleLevelUpgrade = useCallback(() => {
     if (speed > SPEED_UNIT) {
@@ -100,7 +110,6 @@ function Home(props) {
       return enemiesNew;
     });
   }
-
   return (
     <div
       id="Home"
@@ -159,6 +168,9 @@ function Home(props) {
             setJump(false);
           }}
         />
+        {gameOver ? (
+          <GameOverModal score={score} onResetClick={handleReset} />
+        ) : null}
       </div>
     </div>
   );

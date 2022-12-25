@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+#GameOverModal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  * {
+    font-family: 'Permanent Marker', cursive;
+    color: #FFF;
+  }
+  .content {
+    .content-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    button {
+      background-color: unset;
+      border: unset;
+      font-size: 4rem;
+      cursor: pointer;
+      &:hover {
+        color: #03d503;
+      }
+    }
+  }
+}
