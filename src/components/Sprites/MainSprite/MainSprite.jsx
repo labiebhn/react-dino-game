@@ -67,7 +67,7 @@ function MainSprite({ move, keyCode, speed, jump, enemyTouched, enemyDead, gameO
   }
 
   const handleDead = () => {
-    if (enemyTouched && !jump && !enemyDead) {
+    if (typeof enemyTouched === 'number' && !jump && !enemyDead) {
       onDead?.();
     }
   }
